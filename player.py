@@ -40,4 +40,3 @@ if __name__ == '__main__':
     pl = Player()
     pl.play('c_output.wav')
     pl.record('input44.wav')
-    

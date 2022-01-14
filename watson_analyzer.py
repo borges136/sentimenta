@@ -1,8 +1,6 @@
-
 from ibm_watson import ToneAnalyzerV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 import json
-
 
 class WatsonToneAnalyzer():
   def __init__(self, credentials_path= 'watson_credentials.json'):
