@@ -18,7 +18,7 @@ class Config:
 
 class EmotionRecognitionAudioPredictor():
     def __init__(self):
-        self.model = keras.models.load_model("model")
+        self.model = keras.models.load_model("saved_model")
         self.config = Config()
 
 
@@ -54,7 +54,7 @@ class EmotionRecognitionAudioPredictor():
         X = (X - _min) / (_max - _min)
         X = X.reshape(X.shape[0], X.shape[1], X.shape[2], 1)
 
-        # Feed data for each window into model for prediction
+        # Feed data for each window into saved_model for prediction
         for i in range(X.shape[0]):
             window = X[i].reshape(1, X.shape[1], X.shape[2], 1)
             local_results.append(self.model.predict(window))

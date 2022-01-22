@@ -5,3 +5,4 @@ librosa~=0.8.1
 tensorflow~=2.4.0
 vadersentiment~=3.3.2
 matplotlib~=3.5.0
+pillow~=8.4.0
