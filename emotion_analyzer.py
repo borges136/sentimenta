@@ -1,4 +1,3 @@
-from player import Player
 from stt_class import STT
 from cnn_predictor import EmotionRecognitionAudioPredictor
 from watson_analyzer import WatsonToneAnalyzer
