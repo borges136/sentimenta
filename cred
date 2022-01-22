@@ -1,8 +1,0 @@
-{
-  "apikey": "k5R7TkJOgl6PMQws4D1_rwYMwtX4ybY6zysdW1KlsKPI",
-  "iam_apikey_description": "Auto-generated for key crn:v1:bluemix:public:tone-analyzer:eu-de:a/1573d093a637478fb2a1905f390a69b4:c063f8d2-c054-4f92-acdb-098737aaff3e:resource-key:79bb5360-4f6c-4f05-9f82-53d3518b3d92",
-  "iam_apikey_name": "Auto-generated service credentials",
-  "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-  "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/1573d093a637478fb2a1905f390a69b4::serviceid:ServiceId-0a3c169f-4f63-49a2-8204-d0fdd0336392",
-  "url": "https://api.au-syd.tone-analyzer.watson.cloud.ibm.com/instances/f98a8a4b-df9a-4800-8f99-201f4187433b"
-}

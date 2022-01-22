@@ -13,6 +13,7 @@ import threading
 from PIL import ImageTk, Image
 from emotion_analyzer import EmotionAnalyzer
 from tkinter.filedialog import askopenfile
+import json
 
 
 window = Tk()
@@ -31,16 +32,34 @@ window.title("SENTIMENTA Emotion Recognition Assistant")
 # myButton = tk.Button(text="Take Screenshot", command=takeScreenshot, bg='green', fg='white', font=10)
 # canvas1.create_window(150, 150, window=myButton)
 # window.mainloop()
+emotion_results = {}
+
+def monitor(thread):
+    if thread.is_alive():
+        # check the thread every 100ms
+        window.after(100, lambda: monitor(thread))
+    else:
+        f = open('results.json')
+
+        # returns JSON object as
+        # a dictionary
+        res = json.load(f)
+        f.close()
+        show_results(res)
+
 
 def openFile():
-    filepath = filedialog.askopenfilename(initialdir='C:\\Users\\tommy\\PycharmProjects\\Sentimenta_new',
+    filepath = filedialog.askopenfilename(initialdir='.',
                                           filetypes=(("audio files", "*.wav"),
                                                      ("all files", "*.*")))
     if filepath:
-        analyzer = EmotionAnalyzer()
-        results = analyzer.analyze(filepath)
-        print(f'total results: {results}')
-        show_results(results)
+        emotion_results = {}
+
+        analyzer = EmotionAnalyzer(emotion_results)
+        thread = threading.Thread(target=analyzer.analyze, args=(filepath,))
+        thread.start()
+        monitor(thread)
+        print(f'total results: {emotion_results}')
 
 def close_window():
     window.destroy()
@@ -133,7 +152,7 @@ results_headline_model = Label(window, text="Emotion Recognition Model:", bg="wh
 results_headline_model.place(x=10, y=340)
 results_headline_model_model = Label(window, text="Please apply an audio ...", bg="grey")
 results_headline_model_model.place(x=300, y=340)
-# results_headline_model_model.pack()
+
 
 results_headline_watson = Label(window, text="Watson:",  bg="white",fg="black")
 results_headline_watson.place(x=10, y=400)
@@ -159,6 +178,8 @@ text_of_audio.place(x=100, y=530)
 exit_btn=Button(window,text="EXIT",width=14,command=close_window)
 exit_btn.place(x=570, y=570)
 
+
+
 def show_results(results):
     short_cnn=highest_cnn_results(results['cnn_from_audio'])
     results_headline_model_model.config(text=short_cnn)
@@ -176,22 +197,26 @@ def highest_cnn_results(cnn_results):
     return f'{prediction}: {max_value}'
 
 def highest_watson_results(watson_results):
-    string_watson=''
-    watson_short=watson_results["document_tone"]["tones"]
-    for result in watson_short:
-        string_watson+=result["tone_name"]+' '
-        string_watson += str(result["score"])+"\n"
-    return string_watson
+    if watson_results:
+        string_watson=''
+        watson_short=watson_results["document_tone"]["tones"]
+        for result in watson_short:
+            string_watson+=result["tone_name"]+' '
+            string_watson += str(result["score"])+"\n"
+        return string_watson
+    return 'No Watson results'
 
 def highest_veder_results(sentiment_dict):
-    sentiment=''
-    if sentiment_dict['compound'] >= 0.05:
-       sentiment="Positive"
-    elif sentiment_dict['compound'] <= - 0.05:
-       sentiment = "Negative"
+    if sentiment_dict:
+        if sentiment_dict['compound'] >= 0.05:
+           sentiment="Positive"
+        elif sentiment_dict['compound'] <= - 0.05:
+           sentiment = "Negative"
+        else:
+           sentiment = "Neutral"
+        return sentiment
     else:
-       sentiment = "Neutral"
-    return sentiment
+        return 'No Vader results'
 
 
 window.mainloop()

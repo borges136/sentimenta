@@ -1,6 +1,8 @@
 __pycache__/
 watson_credentials.json
 google_api_credentials.json
+results.json
+*.wav
 .DS_Store
 
 

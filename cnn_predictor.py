@@ -61,7 +61,7 @@ class EmotionRecognitionAudioPredictor():
 
         # Aggregate predictions for file into one then append to all_results
         local_results = (np.sum(np.array(local_results), axis=0) / len(local_results))[0]
-        local_results = list(local_results)
+        local_results = local_results.tolist()
         prediction = np.argmax(local_results)
 
         keys = ['neutral', 'happy', 'sad', 'angry', 'fearful', 'disgusted', 'surprised', 'prediction']
